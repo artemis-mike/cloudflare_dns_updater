@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  cloudflare-dns-updater:
+    image: ghcr.io/artemis-mike/cloudflare-dns-updater:cbbe1d5ac71e85f1bf50bef8da318e45d4008aae
+    restart: always
+    environment:
+      CF_UPDATER_ZONE_ID:   ${CF_UPDATER_ZONE_ID}
+      CF_UPDATER_A_RECORD:  ${CF_UPDATER_A_RECORD}
+      CF_UPDATER_TOKEN:     ${CF_UPDATER_TOKEN}
