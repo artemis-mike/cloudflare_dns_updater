@@ -27,4 +27,4 @@ jobs:
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA
 
     - name: Push the Docker image to registry
-      run: docker push $GITHUB_REPOSITORY:$GITHUB_SHA
+      run: docker push ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA
