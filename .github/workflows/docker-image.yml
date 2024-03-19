@@ -6,10 +6,25 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Login to registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $GITHUB_REPOSITORY:$GITHUB_SHA
+
+    - name: Push the Docker image to registry
+      run: docker push --tag $GITHUB_REPOSITORY:$GITHUB_SHA
