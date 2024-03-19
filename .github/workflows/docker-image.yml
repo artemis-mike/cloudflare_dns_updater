@@ -30,5 +30,11 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA
 
-    - name: Push the Docker image to registry
+    - name: Tag image latest
+      run: docker tag ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:latest
+
+    - name: Push the Docker image to registry (SHA tagged)
       run: docker push ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA
+
+    - name: Push the Docker image to registry (latest)
+      run: docker push ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:latest
