@@ -12,4 +12,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag $vars.GITHUB_REPOSITORY:$vars.GITHUB_SHA
+      run: docker build . --file Dockerfile --tag $GITHUB_REPOSITORY:$GITHUB_SHA
