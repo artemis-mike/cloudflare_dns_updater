@@ -45,7 +45,7 @@ def get_public_ip():
 
 def get_zone_data(zone_id, token, A_record):
   url = "https://api.cloudflare.com/client/v4/zones/" + zone_id + "/dns_records"
-  headers = {"Authorization": "Bearer " + TOKEN}
+  headers = {"Authorization": "Bearer " + token}
   response = requests.get(url, headers=headers)
   response_json = response.json()
   for result in response_json["result"]:
@@ -59,7 +59,7 @@ def get_zone_data(zone_id, token, A_record):
 
 def update_record(zone_id, token, record_id, record_ip, A_record):
   url = "https://api.cloudflare.com/client/v4/zones/" + zone_id + "/dns_records/" + record_id
-  headers = {"Authorization": "Bearer " + TOKEN, "Content-Type": "application/json"}
+  headers = {"Authorization": "Bearer " + token, "Content-Type": "application/json"}
   data = {
     "content": record_ip,
     "name": A_record,
