@@ -52,7 +52,8 @@ def get_zone_data(zone_id, token, A_record):
     if (result["name"] == A_record):
       logging.info("Found IP for A-Record " + A_record + ": " + result["content"] + ".")
       return [result["id"], result["content"]]
-    #logging.info("Can't find IP for A-Record " + A_record +". Are you sure it's set up at Cloudflare?")
+  logging.error("Can't find IP for A-Record " + A_record +". Are you sure it's set up at Cloudflare?")
+  sys.exit(2) 
 
       
 
