@@ -67,7 +67,7 @@ def update_record(zone_id, token, record_id, record_ip, A_record):
     "ttl": 60
   }
   response = requests.put(url, headers=headers, data=json.dumps(data))
-  print(response)
+  logging.debug(response)
   response_text = json.loads(response.text)
   print(json.dumps(response_text))
 
@@ -84,6 +84,7 @@ def main():
     record_id, record_ip = get_zone_data(ZONE_ID, TOKEN, A_RECORD)
     if (record_ip != public_ip):
       logging.info("Record IP for " + A_RECORD + ": " + record_ip +" does not match public IP of the host: " + public_ip + ".")
+      logging.info("Updating record.")
       update_record(ZONE_ID, TOKEN, record_id, public_ip, A_RECORD)
     else:
       logging.info("DNS record IP for " + A_RECORD + ": " + record_ip +" matches public IP of the host: " + public_ip + ".")
