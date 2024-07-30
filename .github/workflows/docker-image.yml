@@ -15,26 +15,25 @@ permissions:
   packages: write
 
 jobs:
-  build-and-push:
+  docker:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Login to registry
-      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA
-
-    - name: Tag image latest
-      run: docker tag ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:latest
-
-    - name: Push the Docker image to registry (SHA tagged)
-      run: docker push ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA
-
-    - name: Push the Docker image to registry (latest)
-      run: docker push ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:latest
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:latest, ${{ env.REGISTRY }}/$GITHUB_REPOSITORY:$GITHUB_SHA
