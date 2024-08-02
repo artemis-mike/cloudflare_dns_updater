@@ -1,4 +1,5 @@
 import logging, os, requests, json, time, signal, sys
+from datetime import datetime
 
 ZONE_ID   = os.environ.get("CF_UPDATER_ZONE_ID", None)
 A_RECORD  = os.environ.get("CF_UPDATER_A_RECORD", None)
@@ -90,7 +91,10 @@ def main():
     return 1
 
   while(True):
-    logging.info("Start reconciliation run.")
+    logging.info("Starting reconciliation run.")
+    f = open("./lastRun.epoch", "w")     # Relevant for compose healtheck
+    f.write(str(round(datetime.now().timestamp())))
+    f.close()
     public_ip = get_public_ip()
     record_id, record_ip = get_zone_data(ZONE_ID, TOKEN, A_RECORD)
     if (record_ip != public_ip):
