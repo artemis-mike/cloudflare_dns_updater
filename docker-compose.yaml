@@ -6,10 +6,9 @@ services:
       CF_UPDATER_ZONE_ID:   ${CF_UPDATER_ZONE_ID}
       CF_UPDATER_A_RECORD:  ${CF_UPDATER_A_RECORD}
       CF_UPDATER_TOKEN:     ${CF_UPDATER_TOKEN}
+      CF_UPDATER_INTERVAL:  ${CF_UPDATER_INTERVAL}
     healthcheck:
-      test:
-        - CMD
-        - if [ "$(expr $(date +%s) - $(cat lastRun.epoch))" -lt "$(expr $CF_UPDATER_INTERVAL \* 2)" ]; then exit 0; else exit 1; fi
-      interval: 5m
+      test: ["CMD", "./health.sh"]
+      interval: 30m
       timeout: 10s
       retries: 3      
