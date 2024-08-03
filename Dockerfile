@@ -5,4 +5,4 @@ RUN ["python3", "-m", "pip", "install", "requests"]
 WORKDIR /cloudflare-updater
 COPY ./source .
 
-CMD ["python3", "./update-a-record.py"]
+ENTRYPOINT ["./entrypoint.sh"]
