@@ -6,3 +6,6 @@ services:
       CF_UPDATER_ZONE_ID:   ${CF_UPDATER_ZONE_ID}
       CF_UPDATER_A_RECORD:  ${CF_UPDATER_A_RECORD}
       CF_UPDATER_TOKEN:     ${CF_UPDATER_TOKEN}
+      CF_UPDATER_INTERVAL:  ${CF_UPDATER_INTERVAL}
+    healthcheck:
+      test: ["CMD", "./health-compose.sh"]     

@@ -1,4 +1,5 @@
 import logging, os, requests, json, time, signal, sys
+from datetime import datetime
 
 ZONE_ID   = os.environ.get("CF_UPDATER_ZONE_ID", None)
 A_RECORD  = os.environ.get("CF_UPDATER_A_RECORD", None)
@@ -90,7 +91,10 @@ def main():
     return 1
 
   while(True):
-    logging.info("Start reconciliation run.")
+    logging.info("Starting reconciliation run.")
+    f = open("./lastRun.epoch", "w")     # Relevant for health.sh / health-compose.sh
+    f.write(str(round(datetime.now().timestamp())))
+    f.close()
     public_ip = get_public_ip()
     record_id, record_ip = get_zone_data(ZONE_ID, TOKEN, A_RECORD)
     if (record_ip != public_ip):
@@ -107,4 +111,7 @@ def main():
 
 if __name__ == "__main__":
   signal.signal(signal.SIGINT, signal_handler)
+  signal.signal(signal.SIGHUP, signal_handler)
+  signal.signal(signal.SIGTERM, signal_handler)
+
   main()
