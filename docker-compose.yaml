@@ -1,7 +1,7 @@
 services:
   cloudflare-dns-updater:
     image: ghcr.io/artemis-mike/cloudflare-dns-updater:latest
-    restart: unless-stopped
+    restart: always
     environment:
       CF_UPDATER_ZONE_ID:   ${CF_UPDATER_ZONE_ID}
       CF_UPDATER_A_RECORD:  ${CF_UPDATER_A_RECORD}
