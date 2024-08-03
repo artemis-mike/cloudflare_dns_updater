@@ -29,4 +29,4 @@ This image provides **two** healthchecks.
 - `health.sh` for all systems that can handle healthchecks sanely, like Kubernetes, Docker Swarm, etc.  
 - `health-compose.sh` is intended for `docker compose`, which currently lacks handling of unhealthy containers. It kills the entrypoint-process once the built-in check fails **once**! This causes PID 1 to get terminated and the container stops.
 Depending in the restart-policy (e.g. `restart: always`) the container gets restarted.  
-Please be aware, that using `health-compose.sh` renders `healthcheck.retires` useless. PID 1 gets killed if the healthcheck fails once.
+Please be aware, that using `health-compose.sh` renders `healthcheck.retries` useless. PID 1 gets killed if the healthcheck fails once.
