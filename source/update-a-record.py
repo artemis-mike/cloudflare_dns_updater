@@ -92,7 +92,7 @@ def main():
 
   while(True):
     logging.info("Starting reconciliation run.")
-    f = open("./lastRun.epoch", "w")     # Relevant for compose healtheck
+    f = open("./lastRun.epoch", "w")     # Relevant for health.sh / health-compose.sh
     f.write(str(round(datetime.now().timestamp())))
     f.close()
     public_ip = get_public_ip()
